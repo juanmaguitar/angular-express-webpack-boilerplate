@@ -64,7 +64,7 @@ var config = {
     new HtmlWebpackPlugin({
       template: './frontend/templates/index.tpl.html',
       inject: 'body',
-      filename: 'public/index.html',
+      filename: '../index.html',
       hash: true
     }),
     // We have to manually add the Hot Replacement plugin when running

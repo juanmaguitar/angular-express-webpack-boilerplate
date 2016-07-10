@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index",
     "server": "webpack-dev-server --history-api-fallback --inline --progress",
-    "build": "rimraf public && webpack --config ./webpack.production.config.js --bail --progress --profile && npm run dist-fonts"
+    "build": "rimraf public && webpack --config ./webpack.production.config.js --bail --progress --profile"
   },
   "keywords": [],
   "author": "Andrey Yamanov <tenphi@gmail.com>",
