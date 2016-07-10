@@ -25,9 +25,9 @@ var config = {
       'webpack-dev-server/client?http://' + host + ':3001',
 
       // Our application
-      entryPath,
-      './frontend/vendor'
-    ]
+      entryPath
+    ],
+    vendor: './frontend/vendor'
   },
   output: {
     path: assetsPath,
@@ -69,13 +69,14 @@ var config = {
       filename: 'public/index.html',
       hash: true
     }),
+    new ExtractTextPlugin("styles.css"),
     // We have to manually add the Hot Replacement plugin when running
     // from Node
     new Webpack.HotModuleReplacementPlugin()
   ],
 
   devServer : {
-    contentBase: './src/',
+    contentBase: './frontend/app',
     stats: 'minimal'
   }
 };
