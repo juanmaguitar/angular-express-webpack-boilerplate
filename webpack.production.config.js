@@ -1,4 +1,5 @@
 var Webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var StatsPlugin = require('stats-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var autoprefixer = require('autoprefixer-core');
@@ -6,14 +7,17 @@ var csswring = require('csswring');
 var path = require('path');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var assetsPath = path.resolve(__dirname, 'public', 'assets');
-var entryPath = path.resolve(__dirname, 'frontend', 'app.es6.js');
+var entryPath = path.resolve(__dirname, 'frontend', 'app');
 var host = process.env.APP_HOST || 'localhost';
 
 var config = {
 
   // We change to normal source mapping
   devtool: 'source-map',
-  entry: entryPath,
+  entry: {
+    app: './frontend/app',
+    vendor: './frontend/vendor'
+  },
   output: {
 
     // We need to give Webpack a path. It does not actually need it,
@@ -22,16 +26,16 @@ var config = {
     // as that points to where the files will eventually be bundled
     // in production
     path: assetsPath,
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
 
     // Everything related to Webpack should go through a assets path,
     // localhost:3000/assets. That makes proxying easier to handle
-    publicPath: '/assets/'
+    publicPath: '/assets'
   },
   module: {
 
     loaders: [
-      { test: /\.es6.js$/, loader: 'babel-loader' },
+      { test: /\.js$/, loader: 'babel-loader' },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('css?sourceMap!postcss-loader?sourceMap')
@@ -57,6 +61,12 @@ var config = {
   postcss: [autoprefixer, csswring],
 
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './frontend/templates/index.tpl.html',
+      inject: 'body',
+      filename: 'public/index.html',
+      hash: true
+    }),
     // We have to manually add the Hot Replacement plugin when running
     // from Node
     new ExtractTextPlugin("styles.css"),
